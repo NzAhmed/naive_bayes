@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="naive_bayes.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <p id="result"></p>
+
+        <script>
+            // https://github.com/ttezel/bayes
+            var classifier = new Naivebayes()
+            // teach it positive phrases
+            classifier.learn('amazing, awesome movie!! Yeah!! Oh boy.', 'positive')
+            classifier.learn('Sweet, this is incredibly, amazing, perfect, great!!', 'positive')
+
+            // teach it a negative phrase
+            classifier.learn('drop table employees', 'negative')
+
+            // now ask it to categorize a document it has never seen before
+
+            var myParam =   getQueryString('x',window.location.href);
+            // on the address bar type .....?x=awesome  --- to get positive result
+            // on the address bar type .....?x=Damn --- to get negative result
+            
+            result = classifier.categorize(myParam)
+
+            if(result == "positive") {
+                window.location.href = "http://www.google.com";
+            }
+            else {
+                window.location.href = "http://www.yahoo.com";
+            }
+
+            
+            function getQueryString ( field, url ) {
+                var href = url ? url : window.location.href;
+                var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+                var string = reg.exec(href);
+                return string ? string[1] : null;
+            };
+
+        </script>
+    </body>
+</html>
